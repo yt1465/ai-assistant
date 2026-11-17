@@ -1,0 +1,400 @@
+/* ==========================================================================
+   Modern Styles for AI Study Kit (Gemini Topic Explorer)
+   ========================================================================== */
+
+:root {
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-light: #eef2ff;
+  --accent: #06b6d4;
+  --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #06b6d4 100%);
+  --bg-gradient: radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.08) 0px, transparent 50%),
+                      radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.08) 0px, transparent 50%);
+  
+  --bg-main: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #ffffff;
+  --border-subtle: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-subtle: #94a3b8;
+  
+  --success: #10b981;
+  --success-bg: #ecfdf5;
+  --danger: #ef4444;
+  --danger-bg: #fef2f2;
+  --warning: #f59e0b;
+  --warning-bg: #fffbeb;
+
+  --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+  --card-shadow-hover: 0 20px 30px -10px rgba(79, 70, 229, 0.15);
+}
+
+.dark {
+  --bg-main: #0b0f19;
+  --bg-surface: #111827;
+  --bg-surface-elevated: #1f2937;
+  --border-subtle: #1f293d;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+  
+  --primary-light: rgba(79, 70, 229, 0.15);
+  --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  --card-shadow-hover: 0 20px 35px -10px rgba(99, 102, 241, 0.25);
+  --bg-gradient: radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.15) 0px, transparent 50%),
+                      radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.12) 0px, transparent 50%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-main);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+}
+
+.dark .glass-panel {
+  background: rgba(17, 24, 39, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Brand Gradient Text */
+.text-gradient {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-subtle);
+}
+
+/* ==========================================================================
+   3D Flashcard Styles
+   ========================================================================== */
+
+.flashcard-container {
+  perspective: 1200px;
+  width: 100%;
+  max-width: 680px;
+  min-height: 400px;
+  margin: 0 auto;
+}
+
+.flashcard {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  min-height: 380px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  border-radius: 1.5rem;
+}
+
+.flashcard.flipped {
+  transform: rotateY(180deg);
+}
+
+.flashcard-face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 1.5rem;
+  padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-subtle);
+  user-select: none;
+}
+
+.flashcard-front {
+  background: var(--bg-surface);
+  transform: rotateY(0deg);
+  z-index: 2;
+  transition: opacity 0.25s ease;
+}
+
+.flashcard-back {
+  background: var(--bg-surface-elevated);
+  transform: rotateY(180deg);
+  border-color: rgba(99, 102, 241, 0.3);
+  z-index: 1;
+  transition: opacity 0.25s ease;
+}
+
+.dark .flashcard-back {
+  background: linear-gradient(145deg, #182234, #111827);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.flashcard.flipped .flashcard-front {
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.flashcard.flipped .flashcard-back {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* Grid card flip */
+.grid-flashcard {
+  perspective: 1000px;
+  min-height: 260px;
+  cursor: pointer;
+}
+
+.grid-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+  min-height: 260px;
+}
+
+.grid-card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.grid-card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  box-shadow: var(--card-shadow);
+}
+
+.grid-card-face.back {
+  transform: rotateY(180deg);
+  background: var(--bg-surface-elevated);
+  border-color: rgba(99, 102, 241, 0.25);
+}
+
+/* ==========================================================================
+   Quiz Styles
+   ========================================================================== */
+
+.quiz-option {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid var(--border-subtle);
+}
+
+.quiz-option:hover:not(.disabled) {
+  border-color: var(--primary);
+  background-color: var(--primary-light);
+  transform: translateY(-1px);
+}
+
+.quiz-option.selected-correct {
+  border-color: var(--success) !important;
+  background-color: var(--success-bg) !important;
+  color: #065f46 !important;
+}
+
+.dark .quiz-option.selected-correct {
+  background-color: rgba(16, 185, 129, 0.18) !important;
+  color: #34d399 !important;
+}
+
+.quiz-option.selected-wrong {
+  border-color: var(--danger) !important;
+  background-color: var(--danger-bg) !important;
+  color: #991b1b !important;
+}
+
+.dark .quiz-option.selected-wrong {
+  background-color: rgba(239, 68, 68, 0.18) !important;
+  color: #f87171 !important;
+}
+
+.quiz-option.revealed-correct {
+  border-color: var(--success) !important;
+  border-style: dashed !important;
+  background-color: var(--success-bg) !important;
+}
+
+.dark .quiz-option.revealed-correct {
+  background-color: rgba(16, 185, 129, 0.1) !important;
+  color: #34d399 !important;
+}
+
+/* ==========================================================================
+   Markdown / Content Formatting
+   ========================================================================== */
+
+.markdown-body {
+  line-height: 1.75;
+  color: var(--text-main);
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+}
+
+.markdown-body h1 { font-size: 1.875rem; border-bottom: 2px solid var(--border-subtle); padding-bottom: 0.5rem; }
+.markdown-body h2 { font-size: 1.5rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.35rem; }
+.markdown-body h3 { font-size: 1.25rem; }
+
+.markdown-body p {
+  margin-bottom: 1.25rem;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.markdown-body li {
+  margin-bottom: 0.5rem;
+}
+
+.markdown-body strong {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.dark .markdown-body strong {
+  color: #a5b4fc;
+}
+
+.markdown-body blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 0.75rem 1.25rem;
+  background: var(--primary-light);
+  border-radius: 0 0.75rem 0.75rem 0;
+  margin: 1.25rem 0;
+  font-style: italic;
+}
+
+.markdown-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  background-color: var(--border-subtle);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.375rem;
+  font-size: 0.875em;
+}
+
+/* ==========================================================================
+   Animations & Keyframes
+   ========================================================================== */
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(79, 70, 229, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(6, 182, 212, 0.6);
+  }
+}
+
+.pulse-glow {
+  animation: pulseGlow 2.5s infinite ease-in-out;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-loading {
+  background: linear-gradient(90deg, var(--border-subtle) 25%, var(--bg-surface-elevated) 50%, var(--border-subtle) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 0.5rem;
+}
+
+/* Floating animation */
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.floating-icon {
+  animation: floatGentle 3s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   Print / Export Styling
+   ========================================================================== */
+
+@media print {
+  nav, footer, .no-print, button, #topic-input-section, .tab-navigation {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .study-tab-content {
+    display: block !important;
+    page-break-after: always;
+  }
+  .flashcard-container {
+    perspective: none !important;
+  }
+  .flashcard-face {
+    position: static !important;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    page-break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+}
